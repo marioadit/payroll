@@ -35,4 +35,14 @@ class PageController extends Controller
     {
         return view('admin');
     }
+
+    public function crudper()
+    {
+        return view('crudperusahaan');
+
+    }
+    public function divisi()
+    {
+        return view('divisi');
+    }
 }

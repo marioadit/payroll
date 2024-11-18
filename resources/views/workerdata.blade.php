@@ -20,15 +20,23 @@
             <input type="text" id="workerAddress" class="form-control" value="123 Street, City" />
         </div>
         <div class="col-md-3">
-            <label for="workerPosition">Position</label>
+            <label for="perusahaanDropdown">Perusahaan</label>
             <div class="btn-group w-100">
-                <select id="workerPosition" class="form-select btn dropdown-toggle">
-                    <option value="Manager" selected>Manager</option>
-                    <option value="Developer">Developer</option>
-                    <option value="Designer">Designer</option>
+                <select
+                    id="perusahaanDropdown"
+                    name="perusahaan_id"
+                    class="form-select btn dropdown-toggle"
+                    required
+                >
+                    <option value="" selected disabled>Pilih Perusahaan</option>
+                    <!-- Example dynamic data -->
+                    <option value="1">PT Maju Bersama</option>
+                    <option value="2">CV Sejahtera</option>
+                    <option value="3">PT Amanah</option>
                 </select>
             </div>
         </div>
+
     </div>
     <div class="row mb-3">
         <div class="col-md-3">

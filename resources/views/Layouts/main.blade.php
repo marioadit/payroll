@@ -27,6 +27,17 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/crudperusahaan">
+                            <i class="bi bi-building"></i> Perusahaan Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/divisi">
+                            <i class="bi bi-diagram-2"></i> Divisi Management
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="/workerdata">
                             <i class="bi bi-person"></i> Worker Data
                         </a>

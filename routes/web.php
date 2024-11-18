@@ -11,5 +11,7 @@ Route::get('/workerdata', [PageController::class, 'worker']);
 Route::get('/transaction', [PageController::class, 'transaction']);
 Route::get('/logbook', [PageController::class, 'logbook']);
 Route::get('/admin', [PageController::class, 'admin']);
+Route::get('/crudperusahaan', [PageController::class, 'crudper']);
+Route::get('/divisi', [PageController::class, 'divisi']);
 
 
