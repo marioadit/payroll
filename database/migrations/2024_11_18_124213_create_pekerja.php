@@ -14,12 +14,13 @@ class CreatePekerja extends Migration
     public function up()
     {
         Schema::create('pekerja', function (Blueprint $table) {
-            $table->id('id_pekerja');
-            $table->foreignId('id_divisi')->constrained('divisi')->onDelete('cascade');
+            $table->id();
+            $table->unsignedBigInteger('id_divisi');
             $table->string('nama_pekerja', 255);
             $table->string('nama_bank', 10);
             $table->string('rekening_pekerja', 50);
             $table->timestamps();
+            $table->foreignId('id_divisi')->references('id')->on('divisi')->onDelete('cascade');
         });
 
     }

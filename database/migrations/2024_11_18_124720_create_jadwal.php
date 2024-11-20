@@ -14,11 +14,12 @@ class CreateJadwal extends Migration
     public function up()
     {
         Schema::create('jadwal', function (Blueprint $table) {
-            $table->id('id_jadwal');
-            $table->foreignId('id_rekening')->constrained('sumber_dana')->onDelete('cascade');
+            $table->id();
+            $table->unsignedBigInteger('id_rekening');
             $table->date('tanggal_pembayaran');
             $table->time('waktu_pembayaran');
             $table->timestamps();
+            $table->foreignId('id_rekening')->references('id')->on('sumber_dana')->onDelete('cascade');
         });
     }
 

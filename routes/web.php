@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\perusaanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -11,7 +12,14 @@ Route::get('/workerdata', [PageController::class, 'worker']);
 Route::get('/transaction', [PageController::class, 'transaction']);
 Route::get('/logbook', [PageController::class, 'logbook']);
 Route::get('/admin', [PageController::class, 'admin']);
-Route::get('/crudperusahaan', [PageController::class, 'crudper']);
 Route::get('/divisi', [PageController::class, 'divisi']);
+
+//perusahaan
+Route::get('/crudperusahaan', [perusaanController::class, 'index'])->name('crudperusahaan');
+Route::post('/addPerusahaan', [perusaanController::class, 'addPerusahaan'])->name('addPerusahaan');
+Route::put('/editPerusahaan/{id}', [PageController::class, 'editPerusahaan'])->name('editPerusahaan');
+Route::delete('/deletePerusahaan/{id}', [PageController::class, 'deletePerusahaan'])->name('deletePerusahaan');
+
+
 
 

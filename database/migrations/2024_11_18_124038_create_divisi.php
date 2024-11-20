@@ -14,11 +14,12 @@ class CreateDivisi extends Migration
     public function up()
     {
         Schema::create('divisi', function (Blueprint $table) {
-            $table->id('id_divisi');
-            $table->foreignId('id_perusahaan')->constrained('perusahaan')->onDelete('cascade');
+            $table->id();
+            $table->unsignedBigInteger('id_perusahaan');
             $table->string('nama_divisi', 255);
             $table->decimal('gaji_pokok', 15, 2);
             $table->timestamps();
+            $table->foreignId('id_perusahaan')->references('id')->on('perusahaan')->onDelete('cascade');
         });
     }
 

@@ -15,7 +15,7 @@ class CreateLogbook extends Migration
     {
         Schema::create('logbook', function (Blueprint $table) {
             $table->id();
-            $table->foreign('id_transaksi')->references('id_transaksi')->on('transaksi')->onDelete('cascade');
+            $table->unsignedBigInteger('id_transaksi');
             $table->string('no_rekening', 50);
             $table->string('rekening_pekerja', 50);
             $table->string('nama_pekerja', 255);
@@ -23,6 +23,7 @@ class CreateLogbook extends Migration
             $table->date('tgl_byr');
             $table->time('wkt_byr');
             $table->timestamps();
+            $table->foreignId('id_transaksi')->references('id')->on('transaksi')->onDelete('cascade');
         });
     }
 

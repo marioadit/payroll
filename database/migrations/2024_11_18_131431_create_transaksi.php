@@ -14,14 +14,16 @@ class CreateTransaksi extends Migration
     public function up()
     {
         Schema::create('transaksi', function (Blueprint $table) {
-            $table->id('id_transaksi');
-            $table->foreignId('id_jadwal')->constrained('jadwal')->onDelete('cascade');
-            $table->foreignId('id_pekerja')->constrained('pekerja')->onDelete('cascade');
+            $table->id();
+            $table->unsignedBigInteger('id_jadwal');
+            $table->unsignedBigInteger('id_pekerja');
             $table->date('tgl_byr');
             $table->time('wkt_byr');
             $table->decimal('nominal', 15, 2);
             $table->string('status', 50);
             $table->timestamps();
+            $table->foreignId('id_jadwal')->references('id')->on('jadwal')->onDelete('cascade');
+            $table->foreignId('id_pekerja')->references('id')->on('pekerja')->onDelete('cascade');
         });
     }
 

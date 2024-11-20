@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -36,11 +37,11 @@ class PageController extends Controller
         return view('admin');
     }
 
-    public function crudper()
-    {
-        return view('crudperusahaan');
+    // public function crudper()
+    // {
+    //     return view('crudperusahaan');
+    // }
 
-    }
     public function divisi()
     {
         return view('divisi');

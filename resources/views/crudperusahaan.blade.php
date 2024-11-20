@@ -6,7 +6,8 @@
 <!-- Perusahaan Registration Form -->
 <div class="perusahaan-form">
     <h4>Register New Perusahaan</h4>
-    <form method="POST" action="#">
+    <form method="POST" action="{{ route('addPerusahaan') }}">
+        @csrf
         <div class="row">
             <!-- Left column: Nama Perusahaan -->
             <div class="col-md-6">
@@ -16,10 +17,14 @@
                         type="text"
                         id="namaPerusahaan"
                         name="nama_perusahaan"
-                        class="form-control"
+                        class="form-control @error('nama_perusahaan') is-invalid @enderror"
                         placeholder="Nama Perusahaan"
+                        value="{{ old('nama_perusahaan') }}"
                         required
                     >
+                    @error('nama_perusahaan')
+                        <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
@@ -31,10 +36,14 @@
                         type="text"
                         id="alamatPerusahaan"
                         name="alamat"
-                        class="form-control"
+                        class="form-control @error('alamat') is-invalid @enderror"
                         placeholder="Alamat"
+                        value="{{ old('alamat') }}"
                         required
                     >
+                    @error('alamat')
+                        <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
         </div>
@@ -44,6 +53,13 @@
 </div>
 
 <hr />
+
+<!-- Success Message -->
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 
 <!-- Perusahaan Data Table -->
 <h4>Perusahaan List</h4>
@@ -56,31 +72,30 @@
         </tr>
     </thead>
     <tbody>
-        <!-- Static perusahaan data -->
-        <tr>
-            <td>PT Maju Bersama</td>
-            <td>Jl. Merdeka No. 123</td>
-            <td>
-                <button class="btn btn-warning btn-sm">Edit</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>CV Sejahtera</td>
-            <td>Jl. Sudirman No. 456</td>
-            <td>
-                <button class="btn btn-warning btn-sm">Edit</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>PT Amanah</td>
-            <td>Jl. Kebon Jeruk No. 789</td>
-            <td>
-                <button class="btn btn-warning btn-sm">Edit</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-            </td>
-        </tr>
+        <!-- Dynamic perusahaan data -->
+        @forelse ($perusahaan as $perusahaan)
+            <tr>
+                <td>{{ $perusahaan->nama_perusahaan }}</td>
+                <td>{{ $perusahaan->alamat }}</td>
+                <td>
+                    <!-- Edit Button -->
+                    {{-- <a
+                    href="{{ route('editPerusahaan', $perusahaan->id_perusahaan) }}"
+                         class="btn btn-warning btn-sm">Edit</a> --}}
+
+                    <!-- Delete Button -->
+                    <form action="{{ route('deletePerusahaan', $perusahaan->id_perusahaan) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="3" class="text-center">No perusahaan data available.</td>
+            </tr>
+        @endforelse
     </tbody>
 </table>
 

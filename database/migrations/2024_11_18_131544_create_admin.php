@@ -14,12 +14,13 @@ class CreateAdmin extends Migration
     public function up()
     {
         Schema::create('admin', function (Blueprint $table) {
-            $table->id('id_admin');
-            $table->foreignId('id_perusahaan')->nullable()->constrained('perusahaan')->onDelete('cascade');
+            $table->id();
+            $table->unsignedBigInteger('id_perusahaan');
             $table->string('username', 30)->unique();
             $table->string('password', 255);
             $table->string('role', 20);
             $table->timestamps();
+            $table->foreignId('id_perusahaan')->references('id')->on('perusahaan')->onDelete('cascade');
         });
     }
 

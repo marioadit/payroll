@@ -14,11 +14,12 @@ class CreateSumberDana extends Migration
     public function up()
     {
         Schema::create('sumber_dana', function (Blueprint $table) {
-            $table->id('id_rekening');
-            $table->foreignId('id_perusahaan')->constrained('perusahaan')->onDelete('cascade');
+            $table->id();
+            $table->unsignedBigInteger('id_perusahaan');
             $table->string('no_rekening', 50);
             $table->decimal('saldo', 15, 2);
             $table->timestamps();
+            $table->foreignId('id_perusahaan')->references('id')->on('perusahaan')->onDelete('cascade');
         });
     }
 
