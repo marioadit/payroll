@@ -17,8 +17,9 @@ Route::get('/divisi', [PageController::class, 'divisi']);
 //perusahaan
 Route::get('/crudperusahaan', [perusaanController::class, 'index'])->name('crudperusahaan');
 Route::post('/addPerusahaan', [perusaanController::class, 'addPerusahaan'])->name('addPerusahaan');
-Route::put('/editPerusahaan/{id}', [PageController::class, 'editPerusahaan'])->name('editPerusahaan');
-Route::delete('/deletePerusahaan/{id}', [PageController::class, 'deletePerusahaan'])->name('deletePerusahaan');
+Route::get('/editPerusahaan/{id}', [perusaanController::class, 'editPerusahaan'])->name('editPerusahaan');
+Route::put('/editPerusahaan/{id}', [perusaanController::class, 'updatePerusahaan'])->name('updatePerusahaan');
+Route::delete('/deletePerusahaan/{id}', [perusaanController::class, 'deletePerusahaan'])->name('deletePerusahaan');
 
 
 

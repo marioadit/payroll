@@ -79,16 +79,20 @@
                 <td>{{ $perusahaan->alamat }}</td>
                 <td>
                     <!-- Edit Button -->
-                    {{-- <a
-                    href="{{ route('editPerusahaan', $perusahaan->id_perusahaan) }}"
-                         class="btn btn-warning btn-sm">Edit</a> --}}
+                    <a href="{{ route('editPerusahaan', $perusahaan->id) }}"
+                         class="btn btn-warning btn-sm">Edit</a>
 
                     <!-- Delete Button -->
-                    <form action="{{ route('deletePerusahaan', $perusahaan->id_perusahaan) }}" method="POST" style="display:inline;">
+                    <a href="{{ route('deletePerusahaan', $perusahaan->id) }}"
+                        class="btn btn-danger btn-sm">Edit</a>
+                    {{-- <form action="{{ route('deletePerusahaan', $perusahaan->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this?')">Delete</button>
-                    </form>
+                    </form> --}}
+
+                    {{-- {{ $perusahaan->id }} --}}
+
                 </td>
             </tr>
         @empty

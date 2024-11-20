@@ -28,20 +28,26 @@ class perusaanController extends Controller
         return redirect()->route('crudperusahaan')->with('success', 'Perusahaan berhasil ditambahkan!');
     }
 
-    public function editPerusahaan(Request $request, $id)
+    public function editPerusahaan($id)
     {
-        // Validasi input
-        $validatedData = $request->validate([
-            'nama_perusahaan' => 'required|string|max:255',
-            'alamat' => 'required|string|max:255',
-        ]);
-
-        // Cari perusahaan berdasarkan id dan update
-        $perusahaan = perusahaan::findOrFail($id);
-        $perusahaan->update($validatedData);
-
-        return redirect()->route('crudperusahaan')->with('success', 'Perusahaan berhasil diupdate!');
+        $perusahaan = perusahaan::findOrFail($id); // Correctly fetch a single record by ID
+        return view('crudperusahaan', compact('perusahaan')); // Pass it to the view
     }
+
+
+    public function updatePerusahaan(Request $request, $id)
+{
+    $validatedData = $request->validate([
+        'nama_perusahaan' => 'required|string|max:255',
+        'alamat' => 'required|string|max:255',
+    ]);
+
+    $perusahaan = perusahaan::findOrFail($id); // Find the record to update
+    $perusahaan->update($validatedData); // Save changes to the database
+
+    return redirect()->route('crudperusahaan')->with('success', 'Perusahaan berhasil diupdate!');
+}
+
 
 
     public function deletePerusahaan($id)
