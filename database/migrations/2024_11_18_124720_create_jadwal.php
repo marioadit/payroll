@@ -19,7 +19,7 @@ class CreateJadwal extends Migration
             $table->date('tanggal_pembayaran');
             $table->time('waktu_pembayaran');
             $table->timestamps();
-            $table->foreignId('id_rekening')->references('id')->on('sumber_dana')->onDelete('cascade');
+            $table->foreign('id_rekening')->references('id')->on('sumber_dana')->onDelete('cascade');
         });
     }
 

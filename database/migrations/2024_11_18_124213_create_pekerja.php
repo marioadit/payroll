@@ -20,7 +20,7 @@ class CreatePekerja extends Migration
             $table->string('nama_bank', 10);
             $table->string('rekening_pekerja', 50);
             $table->timestamps();
-            $table->foreignId('id_divisi')->references('id')->on('divisi')->onDelete('cascade');
+            $table->foreign('id_divisi')->references('id')->on('divisi')->onDelete('cascade');
         });
 
     }

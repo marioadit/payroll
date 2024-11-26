@@ -23,7 +23,7 @@ class CreateLogbook extends Migration
             $table->date('tgl_byr');
             $table->time('wkt_byr');
             $table->timestamps();
-            $table->foreignId('id_transaksi')->references('id')->on('transaksi')->onDelete('cascade');
+            $table->foreign('id_transaksi')->references('id')->on('transaksi')->onDelete('cascade');
         });
     }
 

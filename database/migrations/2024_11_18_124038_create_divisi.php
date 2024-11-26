@@ -19,7 +19,7 @@ class CreateDivisi extends Migration
             $table->string('nama_divisi', 255);
             $table->decimal('gaji_pokok', 15, 2);
             $table->timestamps();
-            $table->foreignId('id_perusahaan')->references('id')->on('perusahaan')->onDelete('cascade');
+            $table->foreign('id_perusahaan')->references('id')->on('perusahaan')->onDelete('cascade');
         });
     }
 

@@ -22,8 +22,8 @@ class CreateTransaksi extends Migration
             $table->decimal('nominal', 15, 2);
             $table->string('status', 50);
             $table->timestamps();
-            $table->foreignId('id_jadwal')->references('id')->on('jadwal')->onDelete('cascade');
-            $table->foreignId('id_pekerja')->references('id')->on('pekerja')->onDelete('cascade');
+            $table->foreign('id_jadwal')->references('id')->on('jadwal')->onDelete('cascade');
+            $table->foreign('id_pekerja')->references('id')->on('pekerja')->onDelete('cascade');
         });
     }
 
