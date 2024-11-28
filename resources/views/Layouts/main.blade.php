@@ -22,7 +22,7 @@
                 <h1>Payroll BCA</h1>
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/home">
+                        <a class="nav-link active" href="/">
                             <i class="bi bi-house"></i> Home
                         </a>
                     </li>
