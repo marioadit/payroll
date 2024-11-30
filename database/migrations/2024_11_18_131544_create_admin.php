@@ -20,7 +20,7 @@ class CreateAdmin extends Migration
             $table->string('password', 255);
             $table->string('role', 20);
             $table->timestamps();
-            $table->foreign('id_perusahaan')->nullable()->references('id')->on('perusahaan')->onDelete('cascade');
+            $table->foreign('id_perusahaan')->references('id')->on('perusahaan')->onDelete('cascade');
         });
     }
 

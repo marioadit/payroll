@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\adminController;
+use App\Http\Controllers\sumberdanaController;
 use App\Http\Controllers\divisiController;
+use App\Http\Controllers\pekerjaController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\perusaanController;
 
@@ -9,11 +12,8 @@ use App\Http\Controllers\perusaanController;
 // });
 
 Route::get('/', [PageController::class, 'home']);
-Route::get('/paymentaccount', [PageController::class, 'pa']);
-Route::get('/workerdata', [PageController::class, 'worker']);
 Route::get('/transaction', [PageController::class, 'transaction']);
 Route::get('/logbook', [PageController::class, 'logbook']);
-Route::get('/admin', [PageController::class, 'admin']);
 
 //perusahaan
 Route::get('/crudperusahaan', [perusaanController::class, 'index'])->name('crudperusahaan');
@@ -29,7 +29,24 @@ Route::get('/divisi/{id}/edit', [divisiController::class, 'editDivisi'])->name('
 Route::put('/divisi/{id}', [divisiController::class, 'updateDivisi'])->name('updateDivisi');
 Route::delete('/divisi/{id}', [divisiController::class, 'deleteDivisi'])->name('deleteDivisi');
 
+// Rute untuk pekerja
+Route::get('/workerdata', [pekerjaController::class, 'index'])->name('workerdata');
+Route::post('/workerdata', [pekerjaController::class, 'addPekerja'])->name('addPekerja');
+Route::get('/workerdata/{id}/edit', [pekerjaController::class, 'editPekerja'])->name('editPekerja');
+Route::put('/workerdata/{id}', [pekerjaController::class, 'updatePekerja'])->name('updatePekerja');
+Route::delete('/workerdata/{id}', [pekerjaController::class, 'deletePekerja'])->name('deletePekerja');
 
 
+// Sumber Dana routes
+Route::get('/paymentaccount', [sumberdanaController::class, 'index'])->name('paymentaccount');
+Route::post('/paymentaccount', [sumberdanaController::class, 'addSumberDana'])->name('addSumberDana');
+Route::get('/paymentaccount/{id}/edit', [sumberdanaController::class, 'editSumberDana'])->name('editSumberDana');
+Route::put('/paymentaccount/{id}', [sumberdanaController::class, 'updateSumberDana'])->name('updateSumberDana');
+Route::delete('/paymentaccount/{id}', [sumberdanaController::class, 'deleteSumberDana'])->name('deleteSumberDana');
 
-
+// Admin Routes
+Route::get('/admin', [adminController::class, 'index'])->name('admin.index');
+Route::post('/admin', [adminController::class, 'addAdmin'])->name('addAdmin');
+Route::get('/admin/{id}/edit', [adminController::class, 'editAdmin'])->name('editAdmin');
+Route::put('/admin/{id}', [adminController::class, 'updateAdmin'])->name('updateAdmin');
+Route::delete('/admin/{id}', [adminController::class, 'deleteAdmin'])->name('deleteAdmin');

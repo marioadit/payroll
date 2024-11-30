@@ -16,6 +16,7 @@ class CreateSumberDana extends Migration
         Schema::create('sumber_dana', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_perusahaan');
+            $table->string('accountname', 50);
             $table->string('no_rekening', 50);
             $table->decimal('saldo', 15, 2);
             $table->timestamps();

@@ -12,15 +12,15 @@ class PageController extends Controller
         return view('home');
     }
 
-    public function pa()
-    {
-        return view('paymentaccount');
-    }
+    // public function pa()
+    // {
+    //     return view('paymentaccount');
+    // }
 
-    public function worker()
-    {
-        return view('workerdata');
-    }
+    // public function worker()
+    // {
+    //     return view('workerdata');
+    // }
 
     public function transaction()
     {
@@ -32,10 +32,10 @@ class PageController extends Controller
         return view('logbook');
     }
 
-    public function admin()
-    {
-        return view('admin');
-    }
+    // public function admin()
+    // {
+    //     return view('admin');
+    // }
 
     // public function crudper()
     // {
