@@ -1,0 +1,66 @@
+body {
+    font-family: "Roboto", Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    height: 100vh;
+    background: linear-gradient(to bottom, #266db4, #415569);
+    color: white;
+    padding-top: 20px;
+    position: sticky;
+    top: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h1 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #ecf0f1;
+}
+
+.sidebar a {
+    color: #ecf0f1;
+    padding: 10px 15px;
+    display: block;
+    font-size: 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.sidebar a:hover,
+.sidebar .nav-link.active {
+    background-color: #14b150;
+    color: white;
+}
+
+.content {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-top: 20px;
+}
+
+.main-content h1, .main-content h2 {
+    margin-bottom: 20px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.dropdown-menu {
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu .dropdown-item {
+    color: #2c3e50;
+    transition: all 0.3s ease;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #1abc9c;
+    color: white;
+}

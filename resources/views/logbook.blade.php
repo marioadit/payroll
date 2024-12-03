@@ -1,58 +1,60 @@
 @extends('layouts.main')
-@section('title', 'Payment Logbook')
+
+@section('title', 'Logbook Records')
 
 @section('content')
-<!-- Month Selector and Export Button -->
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-        <label for="monthSelector">Select Month:</label>
-        <input type="month" id="monthSelector" class="form-control d-inline-block" style="width: 200px;" />
-    </div>
-    <button class="btn btn-primary">Export to PDF</button>
-</div>
+    <!-- Month Picker Form -->
+    <form method="GET" action="{{ route('logbook') }}" class="form-inline mb-4">
+        <label for="month" class="mr-2">Select Month:</label>
+        <select name="month" id="month" class="form-control mr-2">
+            @for ($m = 1; $m <= 12; $m++)
+                <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}" {{ $m == $month ? 'selected' : '' }}>
+                    {{ date('F', mktime(0, 0, 0, $m, 1)) }}
+                </option>
+            @endfor
+        </select>
 
-<hr />
+        <label for="year" class="mr-2">Select Year:</label>
+        <select name="year" id="year" class="form-control mr-2">
+            @for ($y = date('Y'); $y >= 2000; $y--) <!-- Adjust year range as needed -->
+                <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>
+                    {{ $y }}
+                </option>
+            @endfor
+        </select>
 
-<!-- Payment Records Table -->
-<h3>Logbook</h3>
-<div class="table-responsive">
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+
+    <!-- Logbook Records Table -->
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Transaction ID</th>
-                <th>Target Account</th>
-                <th>Worker's ID</th>
-                <th>Source Account</th>
-                <th>Date</th>
+                <th>ID</th>
+                <th>No Rekening Sumber Dana</th>
+                <th>Rekening Pekerja</th>
+                <th>Nama Pekerja</th>
                 <th>Nominal</th>
+                <th>Tanggal Bayar</th>
+                <th>Waktu Bayar</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>987654321</td>
-                <td>101</td>
-                <td>123456789</td>
-                <td>2024-10-10</td>
-                <td>{{ number_format(1500, 2) }}</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>876543210</td>
-                <td>102</td>
-                <td>123456789</td>
-                <td>2024-11-05</td>
-                <td>{{ number_format(1200, 2) }}</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>765432109</td>
-                <td>103</td>
-                <td>987654321</td>
-                <td>2024-11-03</td>
-                <td>{{ number_format(1800, 2) }}</td>
-            </tr>
+            @forelse ($logbookRecords as $logbook)
+                <tr>
+                    <td>{{ $logbook->id }}</td>
+                    <td>{{ $logbook->no_rekening }}</td>
+                    <td>{{ $logbook->rekening_pekerja }}</td>
+                    <td>{{ $logbook->nama_pekerja }}</td>
+                    <td>{{ number_format($logbook->nominal, 2) }}</td>
+                    <td>{{ $logbook->tgl_byr }}</td>
+                    <td>{{ $logbook->wkt_byr }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="7" class="text-center">No records found for the selected month and year.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
-</div>
 @endsection
