@@ -24,6 +24,7 @@
         </select>
 
         <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="{{ route('logbook.export', ['month' => $month, 'year' => $year]) }}" class="btn btn-success ml-2">Export to PDF</a>
     </form>
 
     <!-- Logbook Records Table -->

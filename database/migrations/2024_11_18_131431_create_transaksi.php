@@ -36,7 +36,7 @@ class CreateTransaksi extends Migration
             AFTER UPDATE ON transaksi
             FOR EACH ROW
             BEGIN
-                IF NEW.status = "completed" AND OLD.status != "completed" THEN
+                IF NEW.status = "Completed" AND OLD.status != "Completed" THEN
                     INSERT INTO logbook (
                         id_transaksi,
                         no_rekening,

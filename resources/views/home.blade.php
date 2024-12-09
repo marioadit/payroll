@@ -14,8 +14,8 @@
         <h2>Monthly Payment Status</h2>
         <p>Transaction Summary</p>
         <ul>
-            <li>Successful: 8</li>
-            <li>Failed: 3</li>
+            <li>Successful: {{ $successfulTransactions }}</li>
+            <li>Failed: {{ $failedTransactions }}</li>
         </ul>
     </div>
 </div>
@@ -27,7 +27,7 @@
         <form>
             <label for="month">Select Month:</label>
             <input type="text" id="month" class="form-control" placeholder="November 2024">
-            <p>Total Payment for November 2024: Rp2.700.000,00</p>
+            <p>Total Payment for November 2024: Rp{{ number_format($totalPayment, 2, ',', '.') }}</p>
         </form>
     </div>
 </div>
@@ -44,21 +44,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>101</td>
-                <td>John Doe</td>
-                <td><span class="status-badge status-failed">Failed</span></td>
-            </tr>
-            <tr>
-                <td>102</td>
-                <td>Jane Smith</td>
-                <td><span class="status-badge status-failed">Failed</span></td>
-            </tr>
-            <tr>
-                <td>103</td>
-                <td>Bob Johnson</td>
-                <td><span class="status-badge status-failed">Failed</span></td>
-            </tr>
+            @foreach ($unpaidWorkers as $worker)
+                <tr>
+                    <td>{{ $worker['id'] }}</td>
+                    <td>{{ $worker['name'] }}</td>
+                    <td><span class="status-badge status-failed">Failed</span></td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 </div>
@@ -66,8 +58,8 @@
 <!-- Plotly Pie Chart Script -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
-    const xArray = ["Success","Failed"];
-    const yArray = [8,2];
+    const xArray = ["Success", "Failed"];
+    const yArray = [{{ $successfulTransactions }}, {{ $failedTransactions }}];
 
     const layout = {title: "This month payment status"};
     const data = [{labels: xArray, values: yArray, type: "pie"}];
