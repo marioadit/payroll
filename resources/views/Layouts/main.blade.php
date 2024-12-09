@@ -81,7 +81,30 @@
                             <i class="bi bi-person-circle"></i> User
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item">{{ Auth::user()->name ?? 'Guest' }}</a>
+                            <!-- Display the user's name -->
+                            <a class="dropdown-item">
+                                {{ Auth::user()->name ?? 'Guest' }}
+                            </a>
+
+                            <!-- Display the user's company or default value -->
+                            <a class="dropdown-item">
+                                {{ Auth::user()->perusahaan->name ?? 'Admin Bank' }}
+                            </a>
+
+                            <!-- Display the user's role or default value -->
+                            <a class="dropdown-item">
+                                {{ Auth::user()->role ?? 'Role Not Defined' }}
+                            </a>
+
+                            <!-- Logout Button -->
+                            <form action="{{ route('logout') }}" method="POST" class="dropdown-item m-0 p-0">
+                                @csrf
+                                <button type="submit" class="btn btn-link text-decoration-none w-100 text-left">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+
                         </div>
                     </div>
                 </div>

@@ -1,69 +1,80 @@
 <?php
 
-use App\Http\Controllers\adminController;
-use App\Http\Controllers\sumberdanaController;
-use App\Http\Controllers\divisiController;
-use App\Http\Controllers\pekerjaController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SumberDanaController;
+use App\Http\Controllers\DivisiController;
+use App\Http\Controllers\PekerjaController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\perusaanController;
-use App\Http\Controllers\logbookController;
+use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\LogbookController;
 use App\Http\Controllers\JadwalController;
-use App\Http\COntrollers\TransaksiController;
+use App\Http\Controllers\TransaksiController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+// Show login form
+Route::get('login', [PageController::class, 'showLoginForm'])->name('login');
 
-Route::get('/', [PageController::class, 'home']);
-// Route::get('/transaction', [PageController::class, 'transaction']);
-// Route::get('/logbook', [PageController::class, 'logbook']);
+// Handle login
+Route::post('login', [PageController::class, 'login'])->name('logged');
 
-//perusahaan
-Route::get('/crudperusahaan', [perusaanController::class, 'index'])->name('crudperusahaan');
-Route::post('/addPerusahaan', [perusaanController::class, 'addPerusahaan'])->name('addPerusahaan');
-Route::get('/editPerusahaan/{id}', [perusaanController::class, 'editPerusahaan'])->name('editPerusahaan');
-Route::put('/editPerusahaan/{id}', [perusaanController::class, 'updatePerusahaan'])->name('updatePerusahaan');
-Route::delete('/deletePerusahaan/{id}', [perusaanController::class, 'deletePerusahaan'])->name('deletePerusahaan');
-
-// Divisi
-Route::get('/divisi', [divisiController::class, 'index'])->name('divisi.index');
-Route::post('/divisi', [divisiController::class, 'addDivisi'])->name('addDivisi');
-Route::get('/divisi/{id}/edit', [divisiController::class, 'editDivisi'])->name('editDivisi');
-Route::put('/divisi/{id}', [divisiController::class, 'updateDivisi'])->name('updateDivisi');
-Route::delete('/divisi/{id}', [divisiController::class, 'deleteDivisi'])->name('deleteDivisi');
-
-// Rute untuk pekerja
-Route::get('/workerdata', [pekerjaController::class, 'index'])->name('workerdata');
-Route::post('/workerdata', [pekerjaController::class, 'addPekerja'])->name('addPekerja');
-Route::get('/workerdata/{id}/edit', [pekerjaController::class, 'editPekerja'])->name('editPekerja');
-Route::put('/workerdata/{id}', [pekerjaController::class, 'updatePekerja'])->name('updatePekerja');
-Route::delete('/workerdata/{id}', [pekerjaController::class, 'deletePekerja'])->name('deletePekerja');
+// Handle logout
+Route::post('logout', [PageController::class, 'logout'])->name('logout');
 
 
-// Sumber Dana routes
-Route::get('/paymentaccount', [sumberdanaController::class, 'index'])->name('paymentaccount');
-Route::post('/paymentaccount', [sumberdanaController::class, 'addSumberDana'])->name('addSumberDana');
-Route::get('/paymentaccount/{id}/edit', [sumberdanaController::class, 'editSumberDana'])->name('editSumberDana');
-Route::put('/paymentaccount/{id}', [sumberdanaController::class, 'updateSumberDana'])->name('updateSumberDana');
-Route::delete('/paymentaccount/{id}', [sumberdanaController::class, 'deleteSumberDana'])->name('deleteSumberDana');
+// Group routes that require authentication and specific roles
+Route::middleware(['auth:admin', 'role:Admin Bank,Super Admin,Admin Payroll'])->group(function () {
+    // Home route
+    Route::get('/', [PageController::class, 'home'])->name('home');
+    // Admin Routes
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::post('/admin', [AdminController::class, 'addAdmin'])->name('addAdmin');
+    Route::get('/admin/{id}/edit', [AdminController::class, 'editAdmin'])->name('editAdmin');
+    Route::put('/admin/{id}', [AdminController::class, 'updateAdmin'])->name('updateAdmin');
+    Route::delete('/admin/{id}', [AdminController::class, 'deleteAdmin'])->name('deleteAdmin');
 
-// Admin Routes
-Route::get('/admin', [adminController::class, 'index'])->name('admin.index');
-Route::post('/admin', [adminController::class, 'addAdmin'])->name('addAdmin');
-Route::get('/admin/{id}/edit', [adminController::class, 'editAdmin'])->name('editAdmin');
-Route::put('/admin/{id}', [adminController::class, 'updateAdmin'])->name('updateAdmin');
-Route::delete('/admin/{id}', [adminController::class, 'deleteAdmin'])->name('deleteAdmin');
+    // Sumber Dana routes
+    Route::get('/paymentaccount', [SumberDanaController::class, 'index'])->name('paymentaccount');
+    Route::post('/paymentaccount', [SumberDanaController::class, 'addSumberDana'])->name('addSumberDana');
+    Route::get('/paymentaccount/{id}/edit', [SumberDanaController::class, 'editSumberDana'])->name('editSumberDana');
+    Route::put('/paymentaccount/{id}', [SumberDanaController::class, 'updateSumberDana'])->name('updateSumberDana');
+    Route::delete('/paymentaccount/{id}', [SumberDanaController::class, 'deleteSumberDana'])->name('deleteSumberDana');
 
-Route::get('/transaction', [JadwalController::class, 'index'])->name('transaction');
-Route::post('/process-payments/{id}', [JadwalController::class, 'processPayments'])->name('process.payments');
-Route::post('/transaction/test-payment', [JadwalController::class, 'testPayment'])->name('transaction.testPayment');
-Route::post('/jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
-Route::post('/transaction/process', [JadwalController::class, 'processPaymentsForCompany'])->name('transaction.process');
-Route::delete('/jadwal/{id}/cancel', [JadwalController::class, 'cancel'])->name('jadwal.cancel');
-Route::post('/update-status-process-payments/{id}', [JadwalController::class, 'updateStatusAndProcessPayments'])->name('update.status.process.payments');
+    // Divisi Routes
+    Route::get('/divisi', [DivisiController::class, 'index'])->name('divisi.index');
+    Route::post('/divisi', [DivisiController::class, 'addDivisi'])->name('addDivisi');
+    Route::get('/divisi/{id}/edit', [DivisiController::class, 'editDivisi'])->name('editDivisi');
+    Route::put('/divisi/{id}', [DivisiController::class, 'updateDivisi'])->name('updateDivisi');
+    Route::delete('/divisi/{id}', [DivisiController::class, 'deleteDivisi'])->name('deleteDivisi');
 
-// Logbook Routes
-Route::get('/logbook', [LogbookController::class, 'index'])->name('logbook');
-Route::get('logbook/export', [logbookController::class, 'exportPdf'])->name('logbook.export');
+    // Pekerja Routes
+    Route::get('/workerdata', [PekerjaController::class, 'index'])->name('workerdata');
+    Route::post('/workerdata', [PekerjaController::class, 'addPekerja'])->name('addPekerja');
+    Route::get('/workerdata/{id}/edit', [PekerjaController::class, 'editPekerja'])->name('editPekerja');
+    Route::put('/workerdata/{id}', [PekerjaController::class, 'updatePekerja'])->name('updatePekerja');
+    Route::delete('/workerdata/{id}', [PekerjaController::class, 'deletePekerja'])->name('deletePekerja');
 
-Route::get('/', [TransaksiController::class, 'home']);
+    // Transaction Routes
+    Route::get('/transaction', [JadwalController::class, 'index'])->name('transaction');
+    Route::post('/process-payments/{id}', [JadwalController::class, 'processPayments'])->name('process.payments');
+    Route::post('/transaction/test-payment', [JadwalController::class, 'testPayment'])->name('transaction.testPayment');
+    Route::post('/jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
+    Route::post('/transaction/process', [JadwalController::class, 'processPaymentsForCompany'])->name('transaction.process');
+    Route::delete('/jadwal/{id}/cancel', [JadwalController::class, 'cancel'])->name('jadwal.cancel');
+    Route::post('/update-status-process-payments/{id}', [JadwalController::class, 'updateStatusAndProcessPayments'])->name('update.status.process.payments');
+
+    // Logbook Routes
+    Route::get('/logbook', [LogbookController::class, 'index'])->name('logbook');
+    Route::get('logbook/export', [LogbookController::class, 'exportPdf'])->name('logbook.export');
+
+    // Transaksi Routes
+    Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi');
+});
+
+// Group routes that require authentication but not specific roles
+Route::middleware(['auth:admin', 'role:Admin Bank,Super Admin'])->group(function () {
+    // Perusahaan Routes
+    Route::get('/crudperusahaan', [PerusahaanController::class, 'index'])->name('crudperusahaan');
+    Route::post('/addPerusahaan', [PerusahaanController::class, 'addPerusahaan'])->name('addPerusahaan');
+    Route::get('/editPerusahaan/{id}', [PerusahaanController::class, 'editPerusahaan'])->name('editPerusahaan');
+    Route::put('/editPerusahaan/{id}', [PerusahaanController::class, 'updatePerusahaan'])->name('updatePerusahaan');
+    Route::delete('/deletePerusahaan/{id}', [PerusahaanController::class, 'deletePerusahaan'])->name('deletePerusahaan');
+});

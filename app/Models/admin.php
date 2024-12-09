@@ -21,7 +21,7 @@ class admin extends Authenticatable
         'id_perusahaan',
         'username',
         'password',
-        'role',
+        'role', // "Admin Bank", "Super Admin", "Admin Payroll"
     ];
 
     /**
