@@ -7,13 +7,15 @@ use App\Http\Controllers\pekerjaController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\perusaanController;
 use App\Http\Controllers\logbookController;
+use App\Http\Controllers\JadwalController;
+use App\Http\COntrollers\TransaksiController;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
 Route::get('/', [PageController::class, 'home']);
-Route::get('/transaction', [PageController::class, 'transaction']);
+// Route::get('/transaction', [PageController::class, 'transaction']);
 // Route::get('/logbook', [PageController::class, 'logbook']);
 
 //perusahaan
@@ -52,5 +54,16 @@ Route::get('/admin/{id}/edit', [adminController::class, 'editAdmin'])->name('edi
 Route::put('/admin/{id}', [adminController::class, 'updateAdmin'])->name('updateAdmin');
 Route::delete('/admin/{id}', [adminController::class, 'deleteAdmin'])->name('deleteAdmin');
 
+Route::get('/transaction', [JadwalController::class, 'index'])->name('transaction');
+Route::post('/process-payments/{id}', [JadwalController::class, 'processPayments'])->name('process.payments');
+Route::post('/transaction/test-payment', [JadwalController::class, 'testPayment'])->name('transaction.testPayment');
+Route::post('/jadwal', [JadwalController::class, 'store'])->name('jadwal.store');
+Route::post('/transaction/process', [JadwalController::class, 'processPaymentsForCompany'])->name('transaction.process');
+Route::delete('/jadwal/{id}/cancel', [JadwalController::class, 'cancel'])->name('jadwal.cancel');
+Route::post('/update-status-process-payments/{id}', [JadwalController::class, 'updateStatusAndProcessPayments'])->name('update.status.process.payments');
+
 // Logbook Routes
 Route::get('/logbook', [LogbookController::class, 'index'])->name('logbook');
+Route::get('logbook/export', [logbookController::class, 'exportPdf'])->name('logbook.export');
+
+Route::get('/', [TransaksiController::class, 'home']);
