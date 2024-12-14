@@ -6,6 +6,7 @@ use App\Models;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\admin;
+use Illuminate\Support\Facades\Hash;
 
 class PageController extends Controller
 {
@@ -21,21 +22,36 @@ class PageController extends Controller
 
     public function login(Request $request)
     {
-        // Validate the login data
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        // Attempt to log the admin in
-        if (Auth::guard('admin')->attempt($request->only('username', 'password'))) {
-            // Redirect to admin dashboard after successful login
-            return redirect()->route('home');
+        $credentials = $request->only('username', 'password');
+        \Log::info('Login attempt with credentials:', $credentials);
+
+        $admin = Admin::where('username', $request->username)->first();
+        if ($admin) {
+            \Log::info('User found: ' . $admin->username);
+            \Log::info('Hashed password in DB: ' . $admin->password); // Log the hashed password
+
+            if (Hash::check($request->password, $admin->password)) {
+                \Log::info('Password matches for user: ' . $request->username);
+                Auth::guard('admin')->login($admin);
+                return redirect()->route('home');
+            } else {
+                \Log::warning('Password mismatch for user: ' . $request->username);
+                \Log::warning('Entered password: ' . $request->password); // Log the entered password
+                \Log::warning('Hashed password in DB: ' . $admin->password); // Log the hashed password again for reference
+            }
+        } else {
+            \Log::warning('No user found with username: ' . $request->username);
         }
 
-        // Return with an error message if login fails
         return back()->withErrors(['username' => 'Invalid username or password']);
     }
+
+
 
     public function logout()
     {

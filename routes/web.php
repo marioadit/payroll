@@ -24,12 +24,7 @@ Route::post('logout', [PageController::class, 'logout'])->name('logout');
 Route::middleware(['auth:admin', 'role:Admin Bank,Super Admin,Admin Payroll'])->group(function () {
     // Home route
     Route::get('/', [PageController::class, 'home'])->name('home');
-    // Admin Routes
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    Route::post('/admin', [AdminController::class, 'addAdmin'])->name('addAdmin');
-    Route::get('/admin/{id}/edit', [AdminController::class, 'editAdmin'])->name('editAdmin');
-    Route::put('/admin/{id}', [AdminController::class, 'updateAdmin'])->name('updateAdmin');
-    Route::delete('/admin/{id}', [AdminController::class, 'deleteAdmin'])->name('deleteAdmin');
+
 
     // Sumber Dana routes
     Route::get('/paymentaccount', [SumberDanaController::class, 'index'])->name('paymentaccount');
@@ -68,6 +63,13 @@ Route::middleware(['auth:admin', 'role:Admin Bank,Super Admin,Admin Payroll'])->
     // Transaksi Routes
     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi');
 });
+
+    // Admin Routes
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::post('/admin', [AdminController::class, 'addAdmin'])->name('addAdmin');
+    Route::get('/admin/{id}/edit', [AdminController::class, 'editAdmin'])->name('editAdmin');
+    Route::put('/admin/{id}', [AdminController::class, 'updateAdmin'])->name('updateAdmin');
+    Route::delete('/admin/{id}', [AdminController::class, 'deleteAdmin'])->name('deleteAdmin');
 
 // Group routes that require authentication but not specific roles
 Route::middleware(['auth:admin', 'role:Admin Bank,Super Admin'])->group(function () {
