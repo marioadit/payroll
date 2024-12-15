@@ -93,9 +93,9 @@
                                     <div class="form-group">
                                         <label for="editWorkerBank{{ $worker->id }}">Bank Name</label>
                                         <select id="editWorkerBank{{ $worker->id }}" name="nama_bank" class="form-control">
-                                            <option value="Bank A" {{ $worker->nama_bank === 'Bank A' ? 'selected' : '' }}>Bank A</option>
-                                            <option value="Bank B" {{ $worker->nama_bank === 'Bank B' ? 'selected' : '' }}>Bank B</option>
-                                            <option value="Bank C" {{ $worker->nama_bank === 'Bank C' ? 'selected' : '' }}>Bank C</option>
+                                            <option value="Bank BCA" {{ $worker->nama_bank === 'Bank A' ? 'selected' : '' }}>Bank BCA</option>
+                                            <option value="Bank BRI" {{ $worker->nama_bank === 'Bank B' ? 'selected' : '' }}>Bank BRI</option>
+                                            <option value="Bank BNI" {{ $worker->nama_bank === 'Bank C' ? 'selected' : '' }}>Bank BNI</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -160,9 +160,9 @@
                     <div class="form-group">
                         <label for="addWorkerBank">Bank Name</label>
                         <select id="addWorkerBank" name="nama_bank" class="form-control">
-                            <option value="Bank A">Bank A</option>
-                            <option value="Bank B">Bank B</option>
-                            <option value="Bank C">Bank C</option>
+                            <option value="Bank BCA">Bank BCA</option>
+                            <option value="Bank BRI">Bank BRI</option>
+                            <option value="Bank BNI">Bank BNI</option>
                         </select>
                     </div>
                     <div class="form-group">

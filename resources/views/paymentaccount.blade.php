@@ -21,7 +21,7 @@
     <thead>
         <tr>
             <th>Account ID</th>
-            <th>Perusahaan</th>
+            <th>Company</th>
             <th>Account Name</th>
             <th>Account Number</th>
             <th>Balance</th>
@@ -77,22 +77,33 @@
                             <form method="POST" action="{{ route('updateSumberDana', $account->id) }}">
                                 @csrf
                                 @method('PUT')
-                                <div class="form-group">
-                                    <label for="editPerusahaanDropdown{{ $account->id }}">Perusahaan:</label>
-                                    <select
-                                        id="editPerusahaanDropdown{{ $account->id }}"
-                                        name="id_perusahaan"
-                                        class="form-control @error('id_perusahaan') is-invalid @enderror"
-                                        required>
-                                        @foreach ($perusahaanList as $perusahaan)
-                                            <option
-                                                value="{{ $perusahaan->id }}"
-                                                {{ $account->id_perusahaan == $perusahaan->id ? 'selected' : '' }}>
-                                                {{ $perusahaan->nama_perusahaan }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+
+                                <!-- Company Field -->
+                                @if(Auth::user()->id_perusahaan)
+                                    <div class="form-group">
+                                        <label>Company:</label>
+                                        <input type="text" class="form-control" value="{{ Auth::user()->perusahaan->nama_perusahaan }}" readonly>
+                                        <input type="hidden" name="id_perusahaan" value="{{ Auth::user()->id_perusahaan }}">
+                                    </div>
+                                @else
+                                    <div class="form-group">
+                                        <label for="editPerusahaanDropdown{{ $account->id }}">Company:</label>
+                                        <select
+                                            id="editPerusahaanDropdown{{ $account->id }}"
+                                            name="id_perusahaan"
+                                            class="form-control @error('id_perusahaan') is-invalid @enderror"
+                                            required>
+                                            @foreach ($perusahaanList as $perusahaan)
+                                                <option
+                                                    value="{{ $perusahaan->id }}"
+                                                    {{ $account->id_perusahaan == $perusahaan->id ? 'selected' : '' }}>
+                                                    {{ $perusahaan->nama_perusahaan }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
+
                                 <div class="form-group">
                                     <label for="editAccountName{{ $account->id }}">Account Name:</label>
                                     <input
@@ -141,28 +152,41 @@
 <div class="modal fade" id="addPaymentAccountModal" tabindex="-1" role="dialog" aria-labelledby="addPaymentAccountModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+            <!-- Modal Header -->
             <div class="modal-header">
                 <h5 class="modal-title" id="addPaymentAccountModalLabel">Add Payment Account</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <!-- Modal Body -->
             <div class="modal-body">
                 <form method="POST" action="{{ route('addSumberDana') }}">
                     @csrf
-                    <div class="form-group">
-                        <label for="perusahaanDropdown">Perusahaan:</label>
-                        <select
-                            id="perusahaanDropdown"
-                            name="id_perusahaan"
-                            class="form-control @error('id_perusahaan') is-invalid @enderror"
-                            required>
-                            <option value="" selected disabled>Pilih Perusahaan</option>
-                            @foreach ($perusahaanList as $perusahaan)
-                                <option value="{{ $perusahaan->id }}">{{ $perusahaan->nama_perusahaan }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+
+                    <!-- Company Field -->
+                    @if(Auth::user()->id_perusahaan)
+                        <div class="form-group">
+                            <label>Company:</label>
+                            <input type="text" class="form-control" value="{{ Auth::user()->perusahaan->nama_perusahaan }}" readonly>
+                            <input type="hidden" name="id_perusahaan" value="{{ Auth::user()->id_perusahaan }}">
+                        </div>
+                    @else
+                        <div class="form-group">
+                            <label for="perusahaanDropdown">Company:</label>
+                            <select
+                                id="perusahaanDropdown"
+                                name="id_perusahaan"
+                                class="form-control @error('id_perusahaan') is-invalid @enderror"
+                                required>
+                                <option value="" selected disabled>Select Company</option>
+                                @foreach ($perusahaanList as $perusahaan)
+                                    <option value="{{ $perusahaan->id }}">{{ $perusahaan->nama_perusahaan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+
                     <div class="form-group">
                         <label for="accountName">Account Name:</label>
                         <input

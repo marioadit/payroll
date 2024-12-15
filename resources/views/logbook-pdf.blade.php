@@ -25,12 +25,12 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>No Rekening Sumber Dana</th>
-                <th>Rekening Pekerja</th>
-                <th>Nama Pekerja</th>
-                <th>Nominal</th>
-                <th>Tanggal Bayar</th>
-                <th>Waktu Bayar</th>
+                <th>Source Account Number</th>
+                <th>Worker Account Number</th>
+                <th>Worker Name</th>
+                <th>Amount</th>
+                <th>Payment Date</th>
+                <th>Payment Time</th>
             </tr>
         </thead>
         <tbody>

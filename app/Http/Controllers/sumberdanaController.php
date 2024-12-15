@@ -1,12 +1,12 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\sumberdana;
+use App\Models\SumberDana;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class sumberdanaController extends Controller
+class SumberDanaController extends Controller
 {
     /**
      * Display the list of Sumber Dana and the form to add new one.
@@ -15,8 +15,17 @@ class sumberdanaController extends Controller
      */
     public function index()
     {
-        // Retrieve all sumber dana and perusahaan for dropdown
-        $sumberDanas = sumberdana::with('perusahaan')->get();
+        // Get the id_perusahaan of the logged-in admin
+        $id_perusahaan = Auth::guard('admin')->user()->id_perusahaan;
+
+        if ($id_perusahaan > 0) {
+            // If id_perusahaan > 0, filter the results
+            $sumberDanas = SumberDana::with('perusahaan')->where('id_perusahaan', $id_perusahaan)->get();
+        } else {
+            // If id_perusahaan is 0, select all
+            $sumberDanas = SumberDana::with('perusahaan')->get();
+        }
+
         $perusahaanList = Perusahaan::all();
 
         return view('paymentaccount', compact('sumberDanas', 'perusahaanList'));
@@ -38,7 +47,7 @@ class sumberdanaController extends Controller
         ]);
 
         // Create new sumber dana
-        sumberdana::create($request->all());
+        SumberDana::create($request->all());
 
         return redirect()->route('paymentaccount')->with('success', 'Sumber Dana berhasil ditambahkan!');
     }
@@ -51,7 +60,7 @@ class sumberdanaController extends Controller
      */
     public function editSumberDana($id)
     {
-        $sumberDana = sumberdana::findOrFail($id);
+        $sumberDana = SumberDana::findOrFail($id);
         $perusahaanList = Perusahaan::all();
 
         return view('editPaymentAccount', compact('sumberDana', 'perusahaanList'));
@@ -72,7 +81,7 @@ class sumberdanaController extends Controller
             'saldo' => 'required|numeric',
         ]);
 
-        $sumberDana = sumberdana::findOrFail($id);
+        $sumberDana = SumberDana::findOrFail($id);
         $sumberDana->update($request->all());
 
         return redirect()->route('paymentaccount')->with('success', 'Sumber Dana berhasil diperbarui!');
@@ -86,7 +95,7 @@ class sumberdanaController extends Controller
      */
     public function deleteSumberDana($id)
     {
-        $sumberDana = sumberdana::findOrFail($id);
+        $sumberDana = SumberDana::findOrFail($id);
         $sumberDana->delete();
 
         return redirect()->route('paymentaccount')->with('success', 'Sumber Dana berhasil dihapus!');

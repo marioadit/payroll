@@ -16,7 +16,8 @@
 
         <label for="year" class="mr-2">Select Year:</label>
         <select name="year" id="year" class="form-control mr-2">
-            @for ($y = date('Y'); $y >= 2000; $y--) <!-- Adjust year range as needed -->
+            @for ($y = date('Y'); $y >= 2000; $y--)
+                <!-- Adjust year range as needed -->
                 <option value="{{ $y }}" {{ $y == $year ? 'selected' : '' }}>
                     {{ $y }}
                 </option>
@@ -24,7 +25,8 @@
         </select>
 
         <button type="submit" class="btn btn-primary">Filter</button>
-        <a href="{{ route('logbook.export', ['month' => $month, 'year' => $year]) }}" class="btn btn-success ml-2">Export to PDF</a>
+        <a href="{{ route('logbook.export', ['month' => $month, 'year' => $year]) }}" class="btn btn-success ml-2">Export to
+            PDF</a>
     </form>
 
     <!-- Logbook Records Table -->
@@ -32,12 +34,12 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>No Rekening Sumber Dana</th>
-                <th>Rekening Pekerja</th>
-                <th>Nama Pekerja</th>
-                <th>Nominal</th>
-                <th>Tanggal Bayar</th>
-                <th>Waktu Bayar</th>
+                <th>Source Account Number</th>
+                <th>Worker Account Number</th>
+                <th>Worker Name</th>
+                <th>Amount</th>
+                <th>Payment Date</th>
+                <th>Payment Time</th>
             </tr>
         </thead>
         <tbody>

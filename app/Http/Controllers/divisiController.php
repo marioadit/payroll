@@ -1,18 +1,29 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Divisi;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class divisiController extends Controller
+class DivisiController extends Controller
 {
     // Menampilkan halaman daftar divisi
     public function index()
     {
+        // Get the id_perusahaan of the logged-in admin
+        $id_perusahaan = Auth::guard('admin')->user()->id_perusahaan;
+
+        if ($id_perusahaan > 0) {
+            // If id_perusahaan > 0, filter the results
+            $divisi = Divisi::with('perusahaan')->where('id_perusahaan', $id_perusahaan)->get();
+        } else {
+            // If id_perusahaan is 0, select all
+            $divisi = Divisi::with('perusahaan')->get();
+        }
+
         $perusahaan = Perusahaan::all();
-        $divisi = Divisi::with('perusahaan')->get(); // Include perusahaan data
+
         return view('divisi', compact('perusahaan', 'divisi'));
     }
 

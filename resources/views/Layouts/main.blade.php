@@ -91,22 +91,23 @@
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i> User
+                            <i class="bi bi-person-circle"></i>
+                            {{ Auth::guard('admin')->user()->username ?? 'Guest' }}
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                             <!-- Display the admin's name -->
                             <a class="dropdown-item">
-                                {{ Auth::guard('admin')->user()->username ?? 'Guest' }}
+                                User: {{ Auth::guard('admin')->user()->username ?? 'Guest' }}
                             </a>
 
                             <!-- Display the admin's company or default value -->
                             <a class="dropdown-item">
-                                {{ Auth::guard('admin')->user()->perusahaan->nama_perusahaan ?? 'Bank BCA' }}
+                                Company: {{ Auth::guard('admin')->user()->perusahaan->nama_perusahaan ?? 'Bank BCA' }}
                             </a>
 
                             <!-- Display the admin's role or default value -->
                             <a class="dropdown-item">
-                                {{ Auth::guard('admin')->user()->role ?? 'Role Not Defined' }}
+                                Role: {{ Auth::guard('admin')->user()->role ?? 'Role Not Defined' }}
                             </a>
 
                             <!-- Logout Button -->

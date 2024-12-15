@@ -1,11 +1,11 @@
 @extends('layouts.main')
-@section('title', 'Divisi Management')
+@section('title', 'Division Management')
 
 @section('content')
 
 <!-- Button to trigger registration modal -->
 <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addDivisiModal">
-    Register New Divisi
+    Register New Division
 </button>
 
 <!-- Success Message -->
@@ -15,14 +15,14 @@
     </div>
 @endif
 
-<!-- Divisi Data Table -->
-<h4>Divisi List</h4>
+<!-- Division Data Table -->
+<h4>Division List</h4>
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Nama Divisi</th>
-            <th>Perusahaan</th>
-            <th>Gaji Pokok</th>
+            <th>Division Name</th>
+            <th>Company</th>
+            <th>Base Salary</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -46,7 +46,8 @@
                     <form action="{{ route('deleteDivisi', $data->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this?')">Delete</button>
+                        <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Are you sure you want to delete this?')">Delete</button>
                     </form>
                 </td>
             </tr>
@@ -56,7 +57,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editDivisiModalLabel{{ $data->id }}">Edit Divisi</h5>
+                            <h5 class="modal-title" id="editDivisiModalLabel{{ $data->id }}">Edit Division</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -66,7 +67,7 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group">
-                                    <label for="editNamaDivisi{{ $data->id }}">Nama Divisi:</label>
+                                    <label for="editNamaDivisi{{ $data->id }}">Division Name:</label>
                                     <input
                                         type="text"
                                         id="editNamaDivisi{{ $data->id }}"
@@ -79,26 +80,35 @@
                                         <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                     @enderror
                                 </div>
+                                <!-- Company Field -->
+                                @if(Auth::user()->id_perusahaan)
+                                    <div class="form-group">
+                                        <label>Company:</label>
+                                        <input type="text" class="form-control" value="{{ Auth::user()->perusahaan->nama_perusahaan }}" readonly>
+                                        <input type="hidden" name="id_perusahaan" value="{{ Auth::user()->id_perusahaan }}">
+                                    </div>
+                                @else
+                                    <div class="form-group">
+                                        <label for="editPerusahaanDropdown{{ $data->id }}">Company:</label>
+                                        <select
+                                            id="editPerusahaanDropdown{{ $data->id }}"
+                                            name="id_perusahaan"
+                                            class="form-control @error('id_perusahaan') is-invalid @enderror"
+                                            required
+                                        >
+                                            @foreach ($perusahaan as $p)
+                                                <option value="{{ $p->id }}" {{ $data->id_perusahaan == $p->id ? 'selected' : '' }}>
+                                                    {{ $p->nama_perusahaan }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('id_perusahaan')
+                                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                @endif
                                 <div class="form-group">
-                                    <label for="editPerusahaanDropdown{{ $data->id }}">Perusahaan:</label>
-                                    <select
-                                        id="editPerusahaanDropdown{{ $data->id }}"
-                                        name="id_perusahaan"
-                                        class="form-control @error('id_perusahaan') is-invalid @enderror"
-                                        required
-                                    >
-                                        @foreach ($perusahaan as $p)
-                                            <option value="{{ $p->id }}" {{ $data->id_perusahaan == $p->id ? 'selected' : '' }}>
-                                                {{ $p->nama_perusahaan }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('id_perusahaan')
-                                        <span class="invalid-feedback" role="alert">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="editGajiPokok{{ $data->id }}">Gaji Pokok:</label>
+                                    <label for="editGajiPokok{{ $data->id }}">Base Salary:</label>
                                     <input
                                         type="number"
                                         id="editGajiPokok{{ $data->id }}"
@@ -111,7 +121,7 @@
                                         <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <button type="submit" class="btn btn-primary">Update Divisi</button>
+                                <button type="submit" class="btn btn-primary">Update Division</button>
                             </form>
                         </div>
                     </div>
@@ -119,7 +129,7 @@
             </div>
         @empty
             <tr>
-                <td colspan="4" class="text-center">No divisi data available.</td>
+                <td colspan="4" class="text-center">No division data available.</td>
             </tr>
         @endforelse
     </tbody>
@@ -129,23 +139,25 @@
 <div class="modal fade" id="addDivisiModal" tabindex="-1" role="dialog" aria-labelledby="addDivisiModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+            <!-- Modal Header -->
             <div class="modal-header">
-                <h5 class="modal-title" id="addDivisiModalLabel">Register New Divisi</h5>
+                <h5 class="modal-title" id="addDivisiModalLabel">Register New Division</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <!-- Modal Body -->
             <div class="modal-body">
                 <form method="POST" action="{{ route('addDivisi') }}">
                     @csrf
                     <div class="form-group">
-                        <label for="namaDivisi">Nama Divisi:</label>
+                        <label for="namaDivisi">Division Name:</label>
                         <input
                             type="text"
                             id="namaDivisi"
                             name="nama_divisi"
                             class="form-control @error('nama_divisi') is-invalid @enderror"
-                            placeholder="Nama Divisi"
+                            placeholder="Division Name"
                             value="{{ old('nama_divisi') }}"
                             required
                         >
@@ -153,31 +165,40 @@
                             <span class="invalid-feedback" role="alert">{{ $message }}</span>
                         @enderror
                     </div>
+                    <!-- Company Field -->
+                    @if(Auth::user()->id_perusahaan)
+                        <div class="form-group">
+                            <label>Company:</label>
+                            <input type="text" class="form-control" value="{{ Auth::user()->perusahaan->nama_perusahaan }}" readonly>
+                            <input type="hidden" name="id_perusahaan" value="{{ Auth::user()->id_perusahaan }}">
+                        </div>
+                    @else
+                        <div class="form-group">
+                            <label for="perusahaanDropdown">Company:</label>
+                            <select
+                                id="perusahaanDropdown"
+                                name="id_perusahaan"
+                                class="form-control @error('id_perusahaan') is-invalid @enderror"
+                                required
+                            >
+                                <option value="" selected disabled>Select Company</option>
+                                @foreach ($perusahaan as $p)
+                                    <option value="{{ $p->id }}">{{ $p->nama_perusahaan }}</option>
+                                @endforeach
+                            </select>
+                            @error('id_perusahaan')
+                                <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    @endif
                     <div class="form-group">
-                        <label for="perusahaanDropdown">Perusahaan:</label>
-                        <select
-                            id="perusahaanDropdown"
-                            name="id_perusahaan"
-                            class="form-control @error('id_perusahaan') is-invalid @enderror"
-                            required
-                        >
-                            <option value="" selected disabled>Pilih Perusahaan</option>
-                            @foreach ($perusahaan as $p)
-                                <option value="{{ $p->id }}">{{ $p->nama_perusahaan }}</option>
-                            @endforeach
-                        </select>
-                        @error('id_perusahaan')
-                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="gajiPokok">Gaji Pokok:</label>
+                        <label for="gajiPokok">Base Salary:</label>
                         <input
                             type="number"
                             id="gajiPokok"
                             name="gaji_pokok"
                             class="form-control @error('gaji_pokok') is-invalid @enderror"
-                            placeholder="Gaji Pokok"
+                            placeholder="Base Salary"
                             value="{{ old('gaji_pokok') }}"
                             required
                         >
@@ -185,7 +206,7 @@
                             <span class="invalid-feedback" role="alert">{{ $message }}</span>
                         @enderror
                     </div>
-                    <button type="submit" class="btn btn-primary">Register Divisi</button>
+                    <button type="submit" class="btn btn-primary">Register Division</button>
                 </form>
             </div>
         </div>

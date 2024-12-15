@@ -4,12 +4,23 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        $admins = Admin::with('perusahaan')->get();
+        // Get the id_perusahaan of the logged-in admin
+        $id_perusahaan = Auth::guard('admin')->user()->id_perusahaan;
+
+        if ($id_perusahaan > 0) {
+            // If id_perusahaan > 0, filter the results
+            $admins = Admin::with('perusahaan')->where('id_perusahaan', $id_perusahaan)->get();
+        } else {
+            // If id_perusahaan is 0, select all
+            $admins = Admin::with('perusahaan')->get();
+        }
+
         $perusahaan = Perusahaan::all();
 
         return view('admin', compact('admins', 'perusahaan'));
@@ -71,4 +82,3 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('success', 'Admin deleted successfully!');
     }
 }
-

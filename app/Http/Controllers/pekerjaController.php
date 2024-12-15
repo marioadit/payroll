@@ -1,20 +1,35 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Pekerja;
 use App\Models\Divisi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class pekerjaController extends Controller
+class PekerjaController extends Controller
 {
     /**
      * Menampilkan daftar pekerja
      */
     public function index()
     {
-        $pekerja = Pekerja::with('divisi')->get(); // Include relasi divisi
-        $divisi = Divisi::all(); // Data divisi untuk form
+        // Get the id_perusahaan of the logged-in admin
+        $id_perusahaan = Auth::guard('admin')->user()->id_perusahaan;
+
+        if ($id_perusahaan > 0) {
+            // If id_perusahaan > 0, filter the results by divisi associated with the id_perusahaan
+            $pekerja = Pekerja::with('divisi')->whereHas('divisi', function ($query) use ($id_perusahaan) {
+                $query->where('id_perusahaan', $id_perusahaan);
+            })->get();
+
+            // Get only the divisi associated with the id_perusahaan
+            $divisi = Divisi::where('id_perusahaan', $id_perusahaan)->get();
+        } else {
+            // If id_perusahaan is 0, select all
+            $pekerja = Pekerja::with('divisi')->get();
+            $divisi = Divisi::all();
+        }
+
         return view('workerdata', compact('pekerja', 'divisi'));
     }
 
@@ -41,7 +56,17 @@ class pekerjaController extends Controller
     public function editPekerja($id)
     {
         $pekerja = Pekerja::findOrFail($id);
-        $divisi = Divisi::all(); // Data divisi untuk dropdown
+
+        // Get the id_perusahaan of the logged-in admin
+        $id_perusahaan = Auth::guard('admin')->user()->id_perusahaan;
+
+        if ($id_perusahaan > 0) {
+            // Get only the divisi associated with the id_perusahaan
+            $divisi = Divisi::where('id_perusahaan', $id_perusahaan)->get();
+        } else {
+            $divisi = Divisi::all();
+        }
+
         return view('editWorker', compact('pekerja', 'divisi'));
     }
 
