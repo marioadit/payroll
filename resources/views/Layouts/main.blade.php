@@ -101,7 +101,7 @@
 
                             <!-- Display the admin's company or default value -->
                             <a class="dropdown-item">
-                                {{ Auth::guard('admin')->user()->perusahaan->nama_perusahaan ?? 'Admin Bank' }}
+                                {{ Auth::guard('admin')->user()->perusahaan->nama_perusahaan ?? 'Bank BCA' }}
                             </a>
 
                             <!-- Display the admin's role or default value -->
@@ -112,7 +112,7 @@
                             <!-- Logout Button -->
                             <form action="{{ route('logout') }}" method="POST" class="dropdown-item m-0 p-0">
                                 @csrf
-                                <button type="submit" class="btn btn-link text-decoration-none w-100 text-left">
+                                <button type="submit" class="btn btn-link text-decoration-none w-100 text-left text-red">
                                     Logout
                                 </button>
                             </form>
