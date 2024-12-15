@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class admin extends Authenticatable
+class Admin extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -39,13 +38,5 @@ class admin extends Authenticatable
     public function perusahaan()
     {
         return $this->belongsTo(Perusahaan::class, 'id_perusahaan', 'id');
-    }
-
-    /**
-     * Set the password attribute and hash it before saving.
-     */
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = bcrypt($value);
     }
 }

@@ -5,7 +5,7 @@ use App\Http\Controllers\SumberDanaController;
 use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\PekerjaController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\PerusaanController;
 use App\Http\Controllers\LogbookController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\TransaksiController;
@@ -19,12 +19,11 @@ Route::post('login', [PageController::class, 'login'])->name('logged');
 // Handle logout
 Route::post('logout', [PageController::class, 'logout'])->name('logout');
 
-
-// Group routes that require authentication and specific roles
+// Group routes that require authentication and roles (including Admin Payroll)
 Route::middleware(['auth:admin', 'role:Admin Bank,Super Admin,Admin Payroll'])->group(function () {
     // Home route
     Route::get('/', [PageController::class, 'home'])->name('home');
-
+    Route::get('/', [TransaksiController::class, 'home'])->name('home');
 
     // Sumber Dana routes
     Route::get('/paymentaccount', [SumberDanaController::class, 'index'])->name('paymentaccount');
@@ -64,6 +63,8 @@ Route::middleware(['auth:admin', 'role:Admin Bank,Super Admin,Admin Payroll'])->
     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi');
 });
 
+// Group routes that require authentication but not `Admin Payroll` role
+Route::middleware(['auth:admin', 'role:Admin Bank,Super Admin'])->group(function () {
     // Admin Routes
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::post('/admin', [AdminController::class, 'addAdmin'])->name('addAdmin');
@@ -71,12 +72,10 @@ Route::middleware(['auth:admin', 'role:Admin Bank,Super Admin,Admin Payroll'])->
     Route::put('/admin/{id}', [AdminController::class, 'updateAdmin'])->name('updateAdmin');
     Route::delete('/admin/{id}', [AdminController::class, 'deleteAdmin'])->name('deleteAdmin');
 
-// Group routes that require authentication but not specific roles
-Route::middleware(['auth:admin', 'role:Admin Bank,Super Admin'])->group(function () {
     // Perusahaan Routes
-    Route::get('/crudperusahaan', [PerusahaanController::class, 'index'])->name('crudperusahaan');
-    Route::post('/addPerusahaan', [PerusahaanController::class, 'addPerusahaan'])->name('addPerusahaan');
-    Route::get('/editPerusahaan/{id}', [PerusahaanController::class, 'editPerusahaan'])->name('editPerusahaan');
-    Route::put('/editPerusahaan/{id}', [PerusahaanController::class, 'updatePerusahaan'])->name('updatePerusahaan');
-    Route::delete('/deletePerusahaan/{id}', [PerusahaanController::class, 'deletePerusahaan'])->name('deletePerusahaan');
+    Route::get('/crudperusahaan', [PerusaanController::class, 'index'])->name('crudperusahaan');
+    Route::post('/addPerusahaan', [PerusaanController::class, 'addPerusahaan'])->name('addPerusahaan');
+    Route::get('/editPerusahaan/{id}', [PerusaanController::class, 'editPerusahaan'])->name('editPerusahaan');
+    Route::put('/editPerusahaan/{id}', [PerusaanController::class, 'updatePerusahaan'])->name('updatePerusahaan');
+    Route::delete('/deletePerusahaan/{id}', [PerusaanController::class, 'deletePerusahaan'])->name('deletePerusahaan');
 });

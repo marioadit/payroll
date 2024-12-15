@@ -1,17 +1,12 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
-class adminController extends Controller
+class AdminController extends Controller
 {
-    /**
-     * Display a listing of the admin users.
-     */
     public function index()
     {
         $admins = Admin::with('perusahaan')->get();
@@ -20,12 +15,8 @@ class adminController extends Controller
         return view('admin', compact('admins', 'perusahaan'));
     }
 
-    /**
-     * Store a newly created admin user.
-     */
     public function addAdmin(Request $request)
     {
-        // dd($request->all()); // Debug data yang dikirim
         $request->validate([
             'id_perusahaan' => 'required|exists:perusahaan,id',
             'username' => 'required|string|max:30|unique:admin,username',
@@ -36,17 +27,13 @@ class adminController extends Controller
         Admin::create([
             'id_perusahaan' => $request->id_perusahaan,
             'username' => $request->username,
-            'password' => Hash::make($request->password),
+            'password' => $request->password, // Password not hashed
             'role' => $request->role,
         ]);
 
         return redirect()->route('admin.index')->with('success', 'Admin created successfully!');
     }
 
-
-    /**
-     * Show the form for editing the specified admin user.
-     */
     public function editAdmin($id)
     {
         $admin = Admin::findOrFail($id);
@@ -55,9 +42,6 @@ class adminController extends Controller
         return view('admin.edit', compact('admin', 'perusahaan'));
     }
 
-    /**
-     * Update the specified admin user in storage.
-     */
     public function updateAdmin(Request $request, $id)
     {
         $admin = Admin::findOrFail($id);
@@ -73,15 +57,12 @@ class adminController extends Controller
             'id_perusahaan' => $request->id_perusahaan,
             'username' => $request->username,
             'role' => $request->role,
-            'password' => $request->password ? Hash::make($request->password) : $admin->password,
+            'password' => $request->password ? $request->password : $admin->password, // Password not hashed
         ]);
 
         return redirect()->route('admin.index')->with('success', 'Admin updated successfully!');
     }
 
-    /**
-     * Remove the specified admin user from storage.
-     */
     public function deleteAdmin($id)
     {
         $admin = Admin::findOrFail($id);
@@ -90,3 +71,4 @@ class adminController extends Controller
         return redirect()->route('admin.index')->with('success', 'Admin deleted successfully!');
     }
 }
+

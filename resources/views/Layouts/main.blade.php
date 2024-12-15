@@ -31,44 +31,57 @@
                                 <i class="bi bi-house"></i> Home
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::is('crudperusahaan') ? 'active' : '' }}"
-                                href="/crudperusahaan">
-                                <i class="bi bi-building"></i> Perusahaan Management
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::is('divisi') ? 'active' : '' }}" href="/divisi">
-                                <i class="bi bi-diagram-2"></i> Divisi Management
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::is('workerdata') ? 'active' : '' }}" href="/workerdata">
-                                <i class="bi bi-person"></i> Worker Data
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::is('paymentaccount') ? 'active' : '' }}"
-                                href="/paymentaccount">
-                                <i class="bi bi-wallet2"></i> Payment Account
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::is('transaction') ? 'active' : '' }}" href="/transaction">
-                                <i class="bi bi-currency-dollar"></i> Transaction
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::is('logbook') ? 'active' : '' }}" href="/logbook">
-                                <i class="bi bi-journal-text"></i> Payment Logbook
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::is('admin') ? 'active' : '' }}" href="/admin">
-                                <i class="bi bi-person-plus"></i> Create New Admin
-                            </a>
-                        </li>
+                        <!-- Menu for Admin Bank -->
+                        @if (Auth::guard('admin')->user()->role === 'Admin Bank')
+                            <li class="nav-item">
+                                <a class="nav-link {{ Request::is('crudperusahaan') ? 'active' : '' }}"
+                                    href="/crudperusahaan">
+                                    <i class="bi bi-building"></i> Perusahaan Management
+                                </a>
+                            </li>
+                        @endif
+                        <!-- Menu for Admin Bank and Super Admin -->
+                        @if (Auth::guard('admin')->user()->role === 'Admin Bank' || Auth::guard('admin')->user()->role === 'Super Admin')
+                            <li class="nav-item">
+                                <a class="nav-link {{ Request::is('admin') ? 'active' : '' }}" href="/admin">
+                                    <i class="bi bi-person-plus"></i> Create New Admin
+                                </a>
+                            </li>
+                        @endif
+                        <!-- Menu for Admin Bank, Super Admin, and Admin Payroll -->
+                        @if (Auth::guard('admin')->user()->role === 'Admin Bank' ||
+                                Auth::guard('admin')->user()->role === 'Super Admin' ||
+                                Auth::guard('admin')->user()->role === 'Admin Payroll')
+                            <li class="nav-item">
+                                <a class="nav-link {{ Request::is('divisi') ? 'active' : '' }}" href="/divisi">
+                                    <i class="bi bi-diagram-2"></i> Divisi Management
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ Request::is('workerdata') ? 'active' : '' }}" href="/workerdata">
+                                    <i class="bi bi-person"></i> Worker Data
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ Request::is('paymentaccount') ? 'active' : '' }}"
+                                    href="/paymentaccount">
+                                    <i class="bi bi-wallet2"></i> Payment Account
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ Request::is('transaction') ? 'active' : '' }}"
+                                    href="/transaction">
+                                    <i class="bi bi-currency-dollar"></i> Transaction
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ Request::is('logbook') ? 'active' : '' }}" href="/logbook">
+                                    <i class="bi bi-journal-text"></i> Payment Logbook
+                                </a>
+                            </li>
+                        @endif
                     </ul>
+                </div>
             </nav>
 
             <!-- Main Content -->
@@ -81,19 +94,19 @@
                             <i class="bi bi-person-circle"></i> User
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <!-- Display the user's name -->
+                            <!-- Display the admin's name -->
                             <a class="dropdown-item">
-                                {{ Auth::user()->name ?? 'Guest' }}
+                                {{ Auth::guard('admin')->user()->username ?? 'Guest' }}
                             </a>
 
-                            <!-- Display the user's company or default value -->
+                            <!-- Display the admin's company or default value -->
                             <a class="dropdown-item">
-                                {{ Auth::user()->perusahaan->name ?? 'Admin Bank' }}
+                                {{ Auth::guard('admin')->user()->perusahaan->nama_perusahaan ?? 'Admin Bank' }}
                             </a>
 
-                            <!-- Display the user's role or default value -->
+                            <!-- Display the admin's role or default value -->
                             <a class="dropdown-item">
-                                {{ Auth::user()->role ?? 'Role Not Defined' }}
+                                {{ Auth::guard('admin')->user()->role ?? 'Role Not Defined' }}
                             </a>
 
                             <!-- Logout Button -->
@@ -104,11 +117,8 @@
                                 </button>
                             </form>
                         </div>
-
-                        </div>
                     </div>
                 </div>
-
                 <div class="main-content">
                     @yield('content')
                 </div>
