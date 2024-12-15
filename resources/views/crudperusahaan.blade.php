@@ -1,11 +1,11 @@
 @extends('layouts.main')
-@section('title', 'Perusahaan Management')
+@section('title', 'Company Management')
 
 @section('content')
 
 <!-- Button to trigger registration modal -->
 <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#registerModal">
-    Register New Perusahaan
+    Register New Company
 </button>
 
 <!-- Success Message -->
@@ -15,18 +15,18 @@
     </div>
 @endif
 
-<!-- Perusahaan Data Table -->
-<h4>Perusahaan List</h4>
+<!-- Company Data Table -->
+<h4>Company List</h4>
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Nama Perusahaan</th>
-            <th>Alamat</th>
+            <th>Company Name</th>
+            <th>Address</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        <!-- Dynamic perusahaan data -->
+        <!-- Dynamic company data -->
         @forelse ($perusahaan as $data)
             <tr>
                 <td>{{ $data->nama_perusahaan }}</td>
@@ -55,7 +55,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editModalLabel{{ $data->id }}">Edit Perusahaan</h5>
+                            <h5 class="modal-title" id="editModalLabel{{ $data->id }}">Edit Company</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -65,7 +65,7 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group">
-                                    <label for="editNamaPerusahaan{{ $data->id }}">Nama Perusahaan:</label>
+                                    <label for="editNamaPerusahaan{{ $data->id }}">Company Name:</label>
                                     <input
                                         type="text"
                                         id="editNamaPerusahaan{{ $data->id }}"
@@ -79,7 +79,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="editAlamatPerusahaan{{ $data->id }}">Alamat:</label>
+                                    <label for="editAlamatPerusahaan{{ $data->id }}">Address:</label>
                                     <input
                                         type="text"
                                         id="editAlamatPerusahaan{{ $data->id }}"
@@ -92,7 +92,7 @@
                                         <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <button type="submit" class="btn btn-primary">Update Perusahaan</button>
+                                <button type="submit" class="btn btn-primary">Update Company</button>
                             </form>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
             </div>
         @empty
             <tr>
-                <td colspan="3" class="text-center">No perusahaan data available.</td>
+                <td colspan="3" class="text-center">No company data available.</td>
             </tr>
         @endforelse
     </tbody>
@@ -111,7 +111,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="registerModalLabel">Register New Perusahaan</h5>
+                <h5 class="modal-title" id="registerModalLabel">Register New Company</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -120,13 +120,13 @@
                 <form method="POST" action="{{ route('addPerusahaan') }}">
                     @csrf
                     <div class="form-group">
-                        <label for="namaPerusahaan">Nama Perusahaan:</label>
+                        <label for="namaPerusahaan">Company Name:</label>
                         <input
                             type="text"
                             id="namaPerusahaan"
                             name="nama_perusahaan"
                             class="form-control @error('nama_perusahaan') is-invalid @enderror"
-                            placeholder="Nama Perusahaan"
+                            placeholder="Company Name"
                             value="{{ old('nama_perusahaan') }}"
                             required
                         >
@@ -135,13 +135,13 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="alamatPerusahaan">Alamat:</label>
+                        <label for="alamatPerusahaan">Address:</label>
                         <input
                             type="text"
                             id="alamatPerusahaan"
                             name="alamat"
                             class="form-control @error('alamat') is-invalid @enderror"
-                            placeholder="Alamat"
+                            placeholder="Address"
                             value="{{ old('alamat') }}"
                             required
                         >
@@ -149,7 +149,7 @@
                             <span class="invalid-feedback" role="alert">{{ $message }}</span>
                         @enderror
                     </div>
-                    <button type="submit" class="btn btn-primary">Register Perusahaan</button>
+                    <button type="submit" class="btn btn-primary">Register Company</button>
                 </form>
             </div>
         </div>
