@@ -72,13 +72,19 @@
         @csrf
         <div class="row mb-2">
             <div class="col-md-4">
-                <label for="companyId">Company ID</label>
-                <input type="text" id="companyId" name="company_id" class="form-control" required />
+                <label for="companyId">Company</label>
+                <select id="companyId" name="company_id" class="form-control" required>
+                    <option value="" disabled selected>Select a company</option>
+                    @foreach($companies as $company)
+                        <option value="{{ $company->id }}">{{ $company->nama_perusahaan }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
         <button type="button" id="triggerButton" class="btn btn-primary">Trigger Transaction</button>
     </form>
 </div>
+
 
 <h3>Transaction History</h3>
 <div class="table-responsive">
