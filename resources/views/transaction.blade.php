@@ -66,6 +66,20 @@
     <h3>Current Console Time: <span id="console-time"></span></h3>
 </div>
 
+<!-- Form to trigger transaction processing -->
+<div class="transaction-trigger-form">
+    <form id="transactionForm" action="{{ route('transaction.process') }}" method="POST">
+        @csrf
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <label for="companyId">Company ID</label>
+                <input type="text" id="companyId" name="company_id" class="form-control" required />
+            </div>
+        </div>
+        <button type="button" id="triggerButton" class="btn btn-primary">Trigger Transaction</button>
+    </form>
+</div>
+
 <h3>Transaction History</h3>
 <div class="table-responsive">
     <table class="table table-striped">
@@ -100,19 +114,6 @@
     </table>
 </div>
 
-<!-- Form to trigger transaction processing -->
-<div class="transaction-trigger-form">
-    <form id="transactionForm" action="{{ route('transaction.process') }}" method="POST">
-        @csrf
-        <div class="row mb-2">
-            <div class="col-md-4">
-                <label for="companyId">Company ID</label>
-                <input type="text" id="companyId" name="company_id" class="form-control" required />
-            </div>
-        </div>
-        <button type="button" id="triggerButton" class="btn btn-primary">Trigger Transaction</button>
-    </form>
-</div>
 
 <script>
 function updateConsoleTime() {
