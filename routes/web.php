@@ -9,6 +9,8 @@ use App\Http\Controllers\perusaanController;
 use App\Http\Controllers\logbookController;
 use App\Http\Controllers\JadwalController;
 use App\Http\COntrollers\TransaksiController;
+use App\Http\Controllers\Auth\LoginController;
+
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -67,3 +69,14 @@ Route::get('/logbook', [LogbookController::class, 'index'])->name('logbook');
 Route::get('logbook/export', [logbookController::class, 'exportPdf'])->name('logbook.export');
 
 Route::get('/', [TransaksiController::class, 'home']);
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// routes/web.php
+Route::get('/login', function () {
+    return view('auth.login'); // Return the Vue.js login page view
+})->name('login');
+
+Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
