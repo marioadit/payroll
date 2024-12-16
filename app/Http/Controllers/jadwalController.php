@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Jadwal;
 use App\Models\Transaksi;
+use App\Models\perusahaan;
 use App\Models\Pekerja;
 use App\Models\SumberDana;
 use Carbon\Carbon;
@@ -18,11 +19,12 @@ class JadwalController extends Controller
     {
         // Fetch the schedule and transaction data
         $sumberdana = SumberDana::all();
+        $companies = perusahaan::all();
         $transactions = Transaksi::with(['pekerja', 'sumberdana', 'jadwal'])->get();
         $pendingJadwal = Jadwal::where('status', 'pending')->first();
         Log::info("Transaction page loaded");
 
-        return view('transaction', compact('transactions', 'sumberdana', 'pendingJadwal'));  // Pass pendingJadwal to the view
+        return view('transaction', compact('transactions', 'sumberdana', 'pendingJadwal', 'companies'));  // Pass pendingJadwal to the view
     }
 
     public function cancel($id)
