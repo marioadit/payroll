@@ -41,7 +41,7 @@ class JadwalController extends Controller
 
         // Validate the incoming request
         $request->validate([
-            'id_payment_account' => 'required|exists:sumber_dana,id',  // Ensure the payment account exists
+            'payment_account' => 'required|exists:sumber_dana,id',  // Ensure the payment account exists
             'payment_date' => 'required|date',  // Ensure the payment date is provided
         ]);
 
@@ -55,7 +55,7 @@ class JadwalController extends Controller
 
         // Create a new Jadwal entry based on the request data
         $jadwal = new Jadwal();
-        $jadwal->payment_account = $request->input('id_payment_account');  // Foreign key to sumberdana table
+        $jadwal->payment_account = $request->input('payment_account');  // Foreign key to sumberdana table
         $jadwal->selected_date = $request->input('payment_date');  // Payment date
         $jadwal->status = 'pending';  // Default status is 'pending'
         $jadwal->save();  // Save the jadwal entry
